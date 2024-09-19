@@ -1,319 +1,162 @@
-import  {useState} from 'react';
-import {
-  FlatList,
-  Modal,
-  Button,
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  Image
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 
-const flowers =[{
-  "mahoa": 1,
-  "tenloai": "Hoa Quà tặng",
-  "tenhoa": "Đón xuân",
-  "dongia": 15000,
-  "hinh": require('./assets/images/cuc_9.jpg'),
-  "mota": "Hoa hồng màu hồng đậm, hoa hồng xanh, các loại lá măng"
-}, {
-  "mahoa": 2,
-  "tenloai": "Hoa Quà tặng",
-  "tenhoa": "Hồn nhiên",
-  "dongia": 60000,
-  "hinh": require('./assets/images/cuc_2.jpg'),
-  "mota": "Hoa hồng đỏ, lá kim thuỷ tùng"
-}, {
-  "mahoa": 3,
-  "tenloai": "Hoa Quà tặng",
-  "tenhoa": "Tím thuỷ chung",
-  "dongia": 45000,
-  "hinh": require('./assets/images/cuc_3.jpg'),
-  "mota": "Hoa cúc tím"
-}, {
-  "mahoa": 4,
-  "tenloai": "Hoa Quà tặng",
-  "tenhoa": "Nét duyên tím hoa cà",
-  "dongia": 40000,
-  "hinh": require('./assets/images/cuc_4.jpg'),
-  "mota": "Hoa cúc màu tím nhạt"
-}, {
-  "mahoa": 5,
-  "tenloai": "Hoa Quà tặng",
-  "tenhoa": "Cùng khoe sắc",
-  "dongia": 70000,
-  "hinh": require('./assets/images/cuc_5.jpg'),
-  "mota": "Hoa cúc các màu: trắng, vàng, cam"
-}, {
-  "mahoa": 6,
-  "tenloai": "Hoa Quà tặng",
-  "tenhoa": "Trắng thơ ngây",
-  "dongia": 65000,
-  "hinh": require('./assets/images/cuc_6.jpg'),
-  "mota": "Hoa cúc trắng"
-}, {
-  "mahoa": 7,
-  "tenloai": "Hoa Hồng",
-  "tenhoa": "Dây tơ hồng",
-  "dongia": 250000,
-  "hinh": require('./assets/images/cuoi_1.jpg'),
-  "mota": "Hoa hồng màu hồng đậm, hoa hồng xanh, các loại lá măng"
-}, {
-  "mahoa": 8,
-  "tenloai": "Hoa Hồng",
-  "tenhoa": "Cầu thuỷ tinh",
-  "dongia": 220000,
-  "hinh": require('./assets/images/cuoi_2.jpg'),
-  "mota": "Hoa hồng và hoa thuỷ tiên trắng"
-}, {
-  "mahoa": 9,
-  "tenloai": "Hoa Hồng",
-  "tenhoa": "Duyên thầm",
-  "dongia": 260000,
-  "hinh": require('./assets/images/cuoi_3.jpg'),
-  "mota": "Hoa cúc trắng, baby, lá măng"
-}, {
-  "mahoa": 10,
-  "tenloai": "Hoa Hồng",
-  "tenhoa": "Ðâm chồi nảy lộc",
-  "dongia": 180000,
-  "hinh": require('./assets/images/cuoi_4.jpg'),
-  "mota": "Hoa hồng trắng và các loại lá măng"
-}, {
-  "mahoa": 11,
-  "tenloai": "Hoa Hồng",
-  "tenhoa": "Hoà quyện",
-  "dongia": 270000,
-  "hinh": require('./assets/images/cuoi_5.jpg'),
-  "mota": "Hoa hồng trắng, lá thuỷ tùng"
-}, {
-  "mahoa": 12,
-  "tenloai": "Hoa Hồng",
-  "tenhoa": "Nồng nàn",
-  "dongia": 210000,
-  "hinh": require('./assets/images/cuoi_6.jpg'),
-  "mota": "Hoa hồng đỏ, lá thuỷ tùng, lá măng"
-}, {
-  "mahoa": 13,
-  "tenloai": "Hoa Tình Yêu",
-  "tenhoa": "Together",
-  "dongia": 120000,
-  "hinh": require('./assets/images/hong_1.jpg'),
-  "mota": "Hồng xác pháo, cúc tím"
-}, {
-  "mahoa": 14,
-  "tenloai": "Hoa Tình Yêu",
-  "tenhoa": "Long trip",
-  "dongia": 85000,
-  "hinh": require('./assets/images/hong_2.jpg'),
-  "mota": "Hoa hồng đỏ, lá kim thuỷ tùng"
-}, {
-  "mahoa": 15,
-  "tenloai": "Hoa Tình Yêu",
-  "tenhoa": "Beautiful life",
-  "dongia": 100000,
-  "hinh": require('./assets/images/hong_3.jpg'),
-  "mota": "Hoa hồng đỏ, lá măng, lá đệm"
-}, {
-  "mahoa": 16,
-  "tenloai": "Hoa Tình Yêu",
-  "tenhoa": "Morning Sun",
-  "dongia": 75000,
-  "hinh": require('./assets/images/hong_4.jpg'),
-  "mota": "Hoa hồng vàng"
-}, {
-  "mahoa": 17,
-  "tenloai": "Hoa Tình Yêu",
-  "tenhoa": "Pretty Bloom",
-  "dongia": 65000,
-  "hinh": require('./assets/images/hong_5.jpg'),
-  "mota": "Hoa hồng trắng và lá thông"
-}, {
-  "mahoa": 18,
-  "tenloai": "Hoa Tình Yêu",
-  "tenhoa": "Red Rose",
-  "dongia": 45000,
-  "hinh": require('./assets/images/hong_7.jpg'),
-  "mota": "Hoa hồng đỏ và lá măng"
-}, {
-  "mahoa": 19,
-  "tenloai": "Hoa Cưới",
-  "tenhoa": "Vấn vuơng",
-  "dongia": 150000,
-  "hinh": require('./assets/images/xuan_1.jpg'),
-  "mota": "Hoa hồng đỏ, hồng đậm, cúc đỏ, các loại lá"
-}, {
-  "mahoa": 20,
-  "tenloai": "Hoa Cưới",
-  "tenhoa": "Nắng nhẹ nhàng",
-  "dongia": 50000,
-  "hinh": require('./assets/images/xuan_2.jpg'),
-  "mota": "Hoa cúc xanh, hoa lys vàng, lá đệm"
-}, {
-  "mahoa": 21,
-  "tenloai": "Hoa Cưới",
-  "tenhoa": "Thanh tao",
-  "dongia": 120000,
-  "hinh": require('./assets/images/xuan_3.jpg'),
-  "mota": "Hoa thủy tiên, cúa trắng, cúc dại tím, các loại lá đệm"
-}, {
-  "mahoa": 22,
-  "tenloai": "Hoa Cưới",
-  "tenhoa": "Tinh khiết",
-  "dongia": 110000,
-  "hinh": require('./assets/images/xuan_4.jpg'),
-  "mota": "Hồng trắng và salem"
-}, {
-  "mahoa": 23,
-  "tenloai": "Hoa Cưới",
-  "tenhoa": "Mùa xuân chín",
-  "dongia": 150000,
-  "hinh": require('./assets/images/xuan_5.jpg'),
-  "mota": "Hồmg cam, cúc xanh, thuỷ tiên và các loại lá"
-}, {
-  "mahoa": 24,
-  "tenloai": "Hoa Cưới",
-  "tenhoa": "Rực rở nắng vàng",
-  "dongia": 75000,
-  "hinh": require('./assets/images/xuan_6.jpg'),
-  "mota": "Hồng vàng và cúc vàng"
-}, {
-  "mahoa": 25,
-  "tenloai": "Hoa Tình Yêu",
-  "tenhoa": "Love Candy",
-  "dongia": 95000,
-  "hinh": require('./assets/images/hong_13.jpg'),
-  "mota": "Hoa hồng trắng tinh khôi xen với hoa hồng màu hồng nhạt, điểm thêm baby trắng và lá măng"
-}, {
-  "mahoa": 26,
-  "tenloai": "Hoa Hồng",
-  "tenhoa": "Happy Wedding",
-  "dongia": 210000,
-  "hinh": require('./assets/images/cuoi_9.jpg'),
-  "mota": "Hoa hồng môn và các loại lá"
-}, {
-  "mahoa": 27,
-  "tenloai": "Hoa Quà tặng",
-  "tenhoa": "Cúc nhiệt đới",
-  "dongia": 150000,
-  "hinh": require('./assets/images/cuc_15.jpg'),
-  "mota": "Cúc vàng - h?ng cam - lá mang"
-}];
+// Component để hiển thị từng bài đăng
+const Post = ({ post }) => {
+  const [likes, setLikes] = useState(post.likes);
+  const [comments, setComments] = useState(post.comments);
+  const [shares, setShares] = useState(post.shares);
+  const [liked, setLiked] = useState(false);
 
-const App = () => {
-  const [listItems, setListItems] = useState(flowers);
-  const [hoachon,chon] = useState(
-    {
-      "mahoa": 5,
-      "tenloai": "Hoa Quà tặng",
-      "tenhoa": "Cùng khoe sắc",
-      "dongia": 70000,
-      "hinh": require('./assets/images/cuc_5.jpg'),
-      "mota": "Hoa cúc các màu: trắng, vàng, cam"
+  const handleLike = () => {
+    if (liked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
     }
-  );
-  const [showModal, setShowModal] = useState(false);
-
-  const ItemView = ({item}) => {
-    return (
-      <View>
-        <Text
-          style={styles.item}
-          onPress={() => getItem(item)}>
-          {item.tenhoa}
-        </Text>
-      </View>
-    );
+    setLiked(!liked);
   };
 
-  const ItemSeparatorView = () => {
-    return (
-      // FlatList Item Separator
-      <View
-          style={{
-              height: 1,
-              width: '100%',
-              backgroundColor: 'red'
-          }}
-      />
-    );
+  const handleComment = () => {
+    setComments(comments + 1);
   };
 
-  const getItem = (item) => {
-    chon(item);
-    setShowModal(!showModal);
+  const handleShare = () => {
+    setShares(shares + 1);
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <Modal
-          animationType={'slide'}
-          transparent={false}
-          visible={showModal}
-          onRequestClose={() => {
-            console.log('Modal has been closed.');
-          }}>
-           <View style={styles.modal}>
-            <Text style={styles.text}>Tên Hoa :{hoachon.tenhoa}</Text>
-            <Text style={styles.text}>Tên Loại :{hoachon.tenloai}</Text>
-            <Text style={styles.text}>Đơn Giá :{hoachon.dongia}</Text>
-            <Image 
-                    source={hoachon.hinh}  
-                    style={{width: 200, height: 200}} 
-                />
-               <Text style={styles.text}>Mô tả {hoachon.mota}</Text> 
-            <Button
-              title="Close"
-              onPress={() => {
-                setShowModal(!showModal);
-              }}
-            />
-          </View>
-        </Modal>
-      <View style={styles.container}>
-
-        <FlatList
-          data={listItems}
-
-          ItemSeparatorComponent={ItemSeparatorView}
-          
-          renderItem={ItemView}
-          keyExtractor={(item, index) => index.toString()}
-        />
+    <View style={styles.postContainer}>
+      <View style={styles.userInfo}>
+        <Image source={post.avatar} style={styles.avatar} />
+        <Text style={styles.username}>{post.username}</Text>
       </View>
-    </SafeAreaView>
+      <Text style={styles.postText}>{post.text}</Text>
+      {post.image && <Image source={post.image} style={styles.postImage} />}
+      <View style={styles.divider} />
+      <View style={styles.interactions}>
+        <TouchableOpacity onPress={handleLike} style={styles.button}>
+          <Text style={[styles.buttonText, liked ? styles.liked : null]}>
+            {liked ? 'Liked' : 'Like'} ({likes})
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleComment} style={styles.button}>
+          <Text style={styles.buttonText}>Comment ({comments})</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleShare} style={styles.button}>
+          <Text style={styles.buttonText}>Share ({shares})</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
+// Component chính hiển thị danh sách bài đăng
+const App = () => {
+  const posts = [
+    {
+      id: 1,
+      username: 'John Doe',
+      avatar: require('./assets/images/cuc_1.jpg'),
+      text: 'Beautiful day at the park!',
+      image: require('./assets/images/cuc_1.jpg'),
+      likes: 10,
+      comments: 5,
+      shares: 2,
+    },
+    {
+      id: 2,
+      username: 'Jane Smith',
+      avatar: require('./assets/images/cuc_10.jpg'),
+      text: 'Delicious homemade pizza!',
+      image: require('./assets/images/cuc_10.jpg'),
+      likes: 15,
+      comments: 8,
+      shares: 4,
+    },
+    {
+      id: 3,
+      username: 'Bob Johnson',
+      avatar: require('./assets/images/cuc_11.jpg'),
+      text: 'Had a great workout session today!',
+      image: require('./assets/images/cuc_11.jpg'),
+      likes: 7,
+      comments: 3,
+      shares: 1,
+    },
+  ];
+
+  return (
+    <ScrollView style={styles.container}>
+      {posts.map(post => (
+        <Post key={post.id} post={post} />
+      ))}
+    </ScrollView>
+  );
+};
+
+// Styles
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
-    marginTop: 30,
-  },
-  item: {
     padding: 10,
-    fontSize: 18,
-    height: 44,
   },
-  text: {
-    color: '#3f2949',
-    marginTop: 10,
+  postContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 5,
   },
-  modal: {
-    flex: 1,
+  userInfo: {
+    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#00ff00',
-    padding: 100,
+    marginBottom: 10,
   },
-  text: {
-    color: '#3f2949',
-    marginTop: 10,
-  }
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  username: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  postText: {
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  postImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#ccc',
+    marginVertical: 10,
+  },
+  interactions: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  liked: {
+    color: 'red',
+  },
 });
 
 export default App;
