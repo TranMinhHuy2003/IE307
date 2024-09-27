@@ -3,59 +3,59 @@ import { StyleSheet, Text, View } from 'react-native';
 import PageLoaihoa from './pages/Page1';
 import PageHoa from './pages/Page2';
 import PageCtHoa from './pages/Page3';
+import Pagem from './pages/Pagem';
+import Pageh from './pages/Pageh';
+import Pageb from './pages/Pageb';
+import Homepage from './pages/Homepage';
 //Navigator
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="PageLoaihoa">
-      <Stack.Screen
-        name="PageLoaihoa"
-        component={PageLoaihoa}
-        options={{
-          title: 'Loại Hoa', //Set Header Title
+      <Drawer.Navigator
+        screenOptions={{
+          drawerStyle: {
+            backgroundColor: '#c6cbef', //Set Drawer background
+            width: 250, //Set Drawer width
+          },
           headerStyle: {
             backgroundColor: '#f4511e', //Set Header color
           },
           headerTintColor: '#fff', //Set Header text color
           headerTitleStyle: {
             fontWeight: 'bold', //Set Header text style
-          },
+          }
         }}
-      />
-      <Stack.Screen
-        name="PageHoa"
-        component={PageHoa}
-        options={{
-          title: 'Danh Sách', //Set Header Title
-          headerStyle: {
-            backgroundColor: '#f4511e', //Set Header color
-          },
-          headerTintColor: '#fff', //Set Header text color
-          headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
-          },
-        }}
-      />
-      <Stack.Screen
-        name="PageCtHoa"
-        component={PageCtHoa}
-        options={{
-          title: 'Trang Chi Tiết', //Set Header Title
-          headerStyle: {
-            backgroundColor: '#f4511e', //Set Header color
-          },
-          headerTintColor: '#fff', //Set Header text color
-          headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
-          },
-        }}
-      />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+      >
+        <Drawer.Screen
+          name="Trang chủ"
+          options={{
+            drawerLabel: 'Trang chủ',
+            title: 'Trang chủ'
+          }}
+          component={Homepage} />
+        <Drawer.Screen
+          name="Pageh"
+          options={{
+            drawerLabel: 'Trang 2',
+            title: 'Trang 2'
+          }}
+          component={Pageh} />
+        <Drawer.Screen
+          name="Pageb"
+          options={{
+            drawerLabel: 'Trang 3',
+            title: 'Trang 3'
+          }}
+          component={Pageb} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({

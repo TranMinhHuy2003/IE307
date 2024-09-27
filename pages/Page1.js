@@ -55,6 +55,7 @@ export default function PageLoaihoa({ navigation }) {
         keyExtractor={(item, index) => index.toString()}
       />
     </View>
+    
    
   )
 }
