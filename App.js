@@ -1,68 +1,59 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import PageLoaihoa from './pages/Page1';
-import PageHoa from './pages/Page2';
-import PageCtHoa from './pages/Page3';
-import Pagem from './pages/Pagem';
-import Pageh from './pages/Pageh';
-import Pageb from './pages/Pageb';
-import Homepage from './pages/Homepage';
-//Navigator
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
+// Example of Animated Splash Screen in React Native
+// https://aboutreact.com/animated-splash-screen/
 
-export default function App() {
+// import React in our code
+import React, {useState, useEffect} from 'react';
+
+// import all the components we are going to use
+import {View, Text, Image, StyleSheet} from 'react-native';
+
+const App = () => {
+  const [align, setAlign] = useState('center');
+  const [alignsecond, setAlignsecond] = useState(false);
+
+  useEffect(() => {
+    let myTimeout = setTimeout(() => {
+      setAlign('flex-start'), setAlignsecond(true);
+    }, 3000);
+    return () => clearTimeout(myTimeout);
+  }, []);
+
   return (
-    <NavigationContainer>
-      <Drawer.Navigator
-        screenOptions={{
-          drawerStyle: {
-            backgroundColor: '#c6cbef', //Set Drawer background
-            width: 250, //Set Drawer width
-          },
-          headerStyle: {
-            backgroundColor: '#f4511e', //Set Header color
-          },
-          headerTintColor: '#fff', //Set Header text color
-          headerTitleStyle: {
-            fontWeight: 'bold', //Set Header text style
-          }
+    <View
+      style={[
+        styles.container,
+        {justifyContent: align}
+      ]}>
+      <Image
+        source={{
+          uri:
+            'https://raw.githubusercontent.com/AboutReact/sampleresource/master/react_logo.png',
         }}
-      >
-        <Drawer.Screen
-          name="Trang chủ"
-          options={{
-            drawerLabel: 'Trang chủ',
-            title: 'Trang chủ'
-          }}
-          component={Homepage} />
-        <Drawer.Screen
-          name="Pageh"
-          options={{
-            drawerLabel: 'Trang 2',
-            title: 'Trang 2'
-          }}
-          component={Pageh} />
-        <Drawer.Screen
-          name="Pageb"
-          options={{
-            drawerLabel: 'Trang 3',
-            title: 'Trang 3'
-          }}
-          component={Pageb} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+        style={{width: 100, height: 100}}
+      />
+      {!alignsecond ? null : (
+        <View style={{margin: 10}}>
+          <Text
+            style={{
+              color: '#114998',
+              fontSize: 30,
+              fontWeight: 'bold',
+            }}>
+            About React
+          </Text>
+        </View>
+      )}
+    </View>
   );
-}
+};
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    marginHorizontal: 40,
   },
 });
