@@ -1,23 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import PageLoaihoa from './pages/Page1';
-import PageHoa from './pages/Page2';
-import PageCtHoa from './pages/Page3';
-import Pagem from './pages/Pagem';
-import Pageh from './pages/Pageh';
-import Pageb from './pages/Pageb';
 import Homepage from './pages/Homepage';
+import Pageh from './pages/Pageh'
+import Pageb from './pages/Pageb'
+import Trangquanly from './pages/Trangquanly';
 //Navigator
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
-
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator
+    <Drawer.Navigator
         screenOptions={{
           drawerStyle: {
             backgroundColor: '#c6cbef', //Set Drawer background
@@ -30,32 +24,38 @@ export default function App() {
           headerTitleStyle: {
             fontWeight: 'bold', //Set Header text style
           }
-        }}
-      >
+        }}>
         <Drawer.Screen
-          name="Trang chủ"
+          name="Homepage"
           options={{
-            drawerLabel: 'Trang chủ',
-            title: 'Trang chủ'
+            drawerLabel: 'Trang Chủ',
+            title: 'Trang Chủ'
           }}
           component={Homepage} />
         <Drawer.Screen
           name="Pageh"
           options={{
-            drawerLabel: 'Trang 2',
-            title: 'Trang 2'
+            drawerLabel: 'Trang Hai',
+            title: 'Trang Hai'
           }}
           component={Pageh} />
-        <Drawer.Screen
+            <Drawer.Screen
           name="Pageb"
           options={{
-            drawerLabel: 'Trang 3',
-            title: 'Trang 3'
+            drawerLabel: 'Trang Ba',
+            title: 'Trang Hai'
           }}
           component={Pageb} />
+             <Drawer.Screen
+          name="Trangquanly"
+          options={{
+            drawerLabel: 'Quản Lý Người Dùng',
+            title: 'Người Dùng'
+          }}
+          component={Trangquanly} />
       </Drawer.Navigator>
-    </NavigationContainer>
-  );
+  </NavigationContainer>
+);
 }
 
 const styles = StyleSheet.create({
