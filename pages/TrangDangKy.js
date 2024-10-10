@@ -1,5 +1,5 @@
 import { View, Text ,Button,TextInput,FlatList} from 'react-native'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 //Sử dụng SQLlite 
 import * as SQLite from 'expo-sqlite/legacy';
 const db = SQLite.openDatabase("qlbanhoa.db");
@@ -55,26 +55,25 @@ export default function TrangDangKy() {
             );
           });
       }
-         //Hiển Thị
-         const ItemView = ({item}) => {
-            return (
-              <View >
-                <Text >{item.fullname}</Text>
-              </View>
-            );
-          };
-          const ItemSeparatorView = () => {
-            return (
-
-              <View
-                  style={{
-                      height: 0.5,
-                      width: '100%',
-                      backgroundColor: '#C8C8C8'
-                  }}
-              />
-            );
-          };
+      useEffect(() => { DocBangNguoiDung(); });
+      const ItemView = ({item}) => {
+        return (
+          <View >
+            <Text >{item.fullname}</Text>
+          </View>
+        );
+      };
+      const ItemSeparatorView = () => {
+        return (
+          <View
+            style={{
+                height: 0.5,
+                width: '100%',
+                backgroundColor: '#C8C8C8'
+            }}
+          />
+        );
+      };
   return (
     <View>
     

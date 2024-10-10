@@ -1,7 +1,9 @@
 import { View, Text,FlatList,StyleSheet} from 'react-native'
 import React from 'react'
-
+import { UserContext } from './UserContext';
+import { useContext } from "react";
 export default function PageLoaihoa({ navigation }) {
+  const { user, setuser } = useContext(UserContext);
   const Listloaihoa = [
     {
       "maloai":"1",
@@ -54,9 +56,8 @@ export default function PageLoaihoa({ navigation }) {
         renderItem={ItemView}
         keyExtractor={(item, index) => index.toString()}
       />
+      <Text>{user.fullname}</Text>
     </View>
-    
-   
   )
 }
 const styles = StyleSheet.create({
