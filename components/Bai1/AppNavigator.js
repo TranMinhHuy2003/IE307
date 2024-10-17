@@ -4,6 +4,8 @@ import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { AuthContext } from './AuthContext';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Login from './Login';
@@ -12,8 +14,11 @@ import Home from './Home';
 import Categories from './Categories';
 import Favorites from './Favourites';
 import Profile from './Profile';
+import Noti from './Noti';
+import Help from './Help';
 
 const AuthStack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 const MainBottomTab = createBottomTabNavigator();
 
 const AuthStackNavigator = () => (
@@ -22,6 +27,41 @@ const AuthStackNavigator = () => (
     <AuthStack.Screen name="Register" component={Register} />
   </AuthStack.Navigator>
 );
+
+function DrawerNav() {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen
+        options={{headerShown: false}}
+        name="Home"
+        component={Home}
+      />
+      <Drawer.Screen
+        options={{headerShown: false}}
+        name="Notifications"
+        component={Noti}
+      />
+      <Drawer.Screen
+        options={{headerShown: false}}
+        name="Helps"
+        component={Help}
+      />
+    </Drawer.Navigator>
+  );
+}
+
+function getHidden(route) {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
+
+  switch (routeName) {
+    case 'Home':
+      return 'block';
+    case 'Notifications':
+      return 'none';
+    case 'Helps':
+      return 'none';
+  }
+}
 
 const MainBottomTabNavigator = () => (
   <MainBottomTab.Navigator
@@ -44,9 +84,12 @@ const MainBottomTabNavigator = () => (
       },
       tabBarActiveTintColor: 'blue',
       tabBarInactiveTintColor: 'gray',
+      tabBarStyle: {
+        display: getHidden(route)
+      }
     })}
   >
-    <MainBottomTab.Screen name="Home" component={Home} />
+    <MainBottomTab.Screen options={{headerShown: false}} name="Home" component={DrawerNav} />
     <MainBottomTab.Screen name="Categories" component={Categories} />
     <MainBottomTab.Screen name="Favorites" component={Favorites} options={{ tabBarBadge: 3 }} />
     <MainBottomTab.Screen name="Profile" component={Profile} />
